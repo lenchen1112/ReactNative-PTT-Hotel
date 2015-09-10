@@ -25,7 +25,7 @@ var Header = React.createClass({
                     <Icon
                         name='fontawesome|chevron-left'
                         size={20}
-                        color='#000000'
+                        color='#fff'
                         style={{width: 30, height: 30, flex: 1, borderRadius: 15, textAlign: 'right'}}
                     /> 
                 </TouchableHighlight>
@@ -33,13 +33,13 @@ var Header = React.createClass({
         return (
             <View>
                 <View style={styles.header}>
-                    <View style={styles.headerRight}>
+                    <View style={styles.headerView}>
                         {backButton}
                     </View>
-                    <View style={{flex: 1}}>
-                        <Text>PTT Hotel parser</Text>
+                    <View style={styles.headerView}>
+                        <Text style={styles.headerMiddle}>PTT Hotel</Text>
                     </View>
-                    <View style={{flex: 1}}>
+                    <View style={styles.headerView}>
                     </View>
                 </View>
                 <View style={styles.separator} />
@@ -56,10 +56,18 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         paddingTop: 10,
         height: 120 / PixelRatio.get(),
-        backgroundColor: '#f9f9f9',
+        backgroundColor: '#000',
     },
-    headerRight: {
+    headerView: {
         flex: 1
+    },
+    headerMiddle: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: '#b93',
+        fontSize: 25
     },
     separator: {
         height: 1 / PixelRatio.get(),

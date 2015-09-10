@@ -34,10 +34,12 @@ var StudyGroup = React.createClass({
             }),
             classifiedData: {},
             loaded: false,
+            loadingSymbolCount: 0,
         }
     },
     componentDidMount: function () {
         this.preprocessing();
+        this.setTimerForLoading();
     },
     preprocessing: function () {
         var parsedLocations = locations.filter(function parseLocation (location) {
@@ -113,30 +115,46 @@ var StudyGroup = React.createClass({
             return this.renderLoadingView();
         }
         return (
-             <NavigatorIOS
-                initialRoute={{
-                    component: Locations,
-                    title: 'My View Title',
-                    passProps: {
-                        presentLocations: this.state.presentLocations,
-                        showLocations: this.showLocations
-                    },
-                }}
-            />
+             <Navigator
+                initialRoute={{id: 'init', name: 'first screen', index: 0}}
+                renderScene={this.renderScene} />
         );
 
-         // <Navigator
-         //            initialRoute={{id: 'init', name: 'first screen', index: 0}}
-         //            renderScene={this.renderScene} />
+         
     },
     renderLoadingView: function () {
+        let loadingSymbol = '';
+        let r = parseInt(Math.random() * 255);
+        let g = parseInt(Math.random() * 255);
+        let b = parseInt(Math.random() * 255);
+        let symbolStyle = StyleSheet.create({
+            loadingSymbol: {
+                alignItems: 'center',
+                fontWeight: 'bold',
+                fontSize: 40,
+                color: 'rgb(' + r + ',' + g + ',' + b + ')' ,
+            },
+        });
+        for (let i = 0; i < this.state.loadingSymbolCount; i++) {
+            loadingSymbol += '.';
+        }
         return (
             <View style={styles.container}>
-                <Text>
-                    Loading articles...
-                </Text>
+                <Text style={styles.loading}>HOTEL</Text>
+                <Text style={styles.loading}>PARSER</Text>
+                <Text style={symbolStyle.loadingSymbol}>{loadingSymbol}</Text>
             </View>
         );
+    },
+    setTimerForLoading: function () {
+        setTimeout(() => {
+            this.setState({
+                loadingSymbolCount: this.state.loadingSymbolCount + 1
+            });
+            if (!this.state.loading && this.state.loadingSymbolCount < 30) {
+                this.setTimerForLoading();
+            }
+        }, 100);
     },
     renderScene: function (route, navigator) {
         this.navigator = navigator;
@@ -154,7 +172,7 @@ var StudyGroup = React.createClass({
                 break;
             case 'webView':
                 return (
-                    <View style={styles.webView}>
+                    <View style={styles.webContainerView}>
                         <Header backToPrevious={this.backToPrevious} />
                         <WebView
                             automaticallyAdjustContentInsets={false}
@@ -163,7 +181,8 @@ var StudyGroup = React.createClass({
                             javaScriptEnabledAndroid={true}
                             startInLoadingState={true}
                             scrollEnabled={true}
-                            scalesPageToFit={false} />
+                            scalesPageToFit={false}
+                            style={styles.webView} />
                     </View>
                 );
                 break;
@@ -184,18 +203,26 @@ var StudyGroup = React.createClass({
 
 var styles = StyleSheet.create({
     container: {
-        marginTop: 20,
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#000',
+    },
+    loading: {
+        alignItems: 'center',
+        fontWeight: 'bold',
+        fontSize: 60,
+        color: '#fff'
     },
     articles: {
         flex: 1
     },
-    webView: {
+    webContainerView: {
         flex: 1
+    },
+    webView: {
+        backgroundColor: 'rgba(255,255,255,0.8)',
     },
     locations: {
         flex: 1

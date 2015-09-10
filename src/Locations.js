@@ -37,24 +37,24 @@ var Locations = React.createClass({
 
 var styles = StyleSheet.create({
     container: {
-        marginTop: 20,
+        paddingTop: 10,
+        paddingBottom: 10,
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#000',
+        borderBottomColor: '#fff',
+        borderWidth: 0.5,
     },
     rightContainer: {
         flex: 1,
     },
     title: {
-        fontSize: 16,
-        marginBottom: 4,
-        marginTop: 8,
+        paddingLeft: 10,
+        fontSize: 35,
         textAlign: 'left',
-    },
-    date: {
-        textAlign: 'left',
+        color: '#fff'
     },
 });
 
